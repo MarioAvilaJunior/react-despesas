@@ -28,6 +28,9 @@ const ExpensesScreen = () => {
   const { yearAndMonth } = useParams<string>() as { yearAndMonth: string };
 
   const [year, month] = yearAndMonth.split("-");
+  const yearIndex = YEARS.findIndex((element) => {
+    return element === year;
+  }).toString();
 
   useEffect(() => {
     Promise.all([getAllExpenses(yearAndMonth, "day")]).then(([expenses]) => {
@@ -47,13 +50,13 @@ const ExpensesScreen = () => {
         <SelectVariants
           selectLabel="Year"
           elementsList={YEARS}
-          defaultValue={year}
+          defaultValue={yearIndex}
           yearAndMonth={yearAndMonth}
         />
         <SelectVariants
           selectLabel="Month"
           elementsList={MONTHS}
-          defaultValue={MONTHS[parseInt(month) - 1]}
+          defaultValue={(parseInt(month) - 1).toString()}
           yearAndMonth={yearAndMonth}
         />
       </Box>

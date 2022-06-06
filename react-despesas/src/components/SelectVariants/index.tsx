@@ -14,9 +14,8 @@ interface ISelectVariantsProps {
 
 function SelectVariants(props: ISelectVariantsProps) {
   const { selectLabel, elementsList, defaultValue, yearAndMonth } = props;
-  const [currentElement, setCurrentElement] = React.useState<string>(
-    elementsList[0]
-  );
+  const [currentElement, setCurrentElement] =
+    React.useState<string>(defaultValue);
 
   let navigate = useNavigate();
 
@@ -32,11 +31,10 @@ function SelectVariants(props: ISelectVariantsProps) {
       const monthURL = (parseInt(event.target.value) + 1)
         .toString()
         .padStart(2, "0");
-      console.log(monthURL);
       navigate(`/despesas/${yearURL}-${monthURL}`);
     }
   };
-  console.log(defaultValue);
+
   return (
     <div>
       <FormControl variant="filled" sx={{ m: 1, minWidth: 120 }}>
@@ -48,7 +46,6 @@ function SelectVariants(props: ISelectVariantsProps) {
           id="demo-simple-select-filled"
           value={currentElement}
           onChange={handleChange}
-          defaultValue={defaultValue}
         >
           {elementsList.map((element, index) => {
             return (
