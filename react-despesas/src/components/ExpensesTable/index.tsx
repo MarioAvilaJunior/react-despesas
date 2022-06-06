@@ -21,7 +21,7 @@ const ExpensesTable = (props: IExpensesTableProps) => {
           <TableRow>
             <TableCell>Expense</TableCell>
             <TableCell align="right">Category</TableCell>
-            <TableCell align="right">Days</TableCell>
+            <TableCell align="right">Day</TableCell>
             <TableCell align="right">Cost</TableCell>
           </TableRow>
         </TableHead>

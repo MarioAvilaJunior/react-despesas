@@ -3,6 +3,7 @@ import { getAllExpenses, IExpense } from "../api/api";
 import { getCurrentData } from "../functions/dateFunctions";
 import Box from "@mui/material/Box";
 import { ExpensesTable, SelectVariants } from "../components";
+import { useParams } from "react-router-dom";
 
 const YEARS = ["2020", "2021", "2022", "2023"];
 
@@ -23,13 +24,16 @@ const MONTHS = [
 
 const ExpensesScreen = () => {
   const [expenses, setExpenses] = useState<IExpense[]>([]);
-  const [date, setDate] = useState<string>("2021-01");
+  //const [date, setDate] = useState<string>("2021-01");
+  const { yearAndMonth } = useParams<string>() as { yearAndMonth: string };
+
+  const [year, month] = yearAndMonth.split("-");
 
   useEffect(() => {
-    Promise.all([getAllExpenses(date, "day")]).then(([expenses]) => {
+    Promise.all([getAllExpenses(yearAndMonth, "day")]).then(([expenses]) => {
       setExpenses(expenses);
     });
-  }, [date]);
+  }, [yearAndMonth]);
 
   const totalCost = expenses
     .reduce((total, expense) => {
@@ -40,8 +44,18 @@ const ExpensesScreen = () => {
   return (
     <Box>
       <Box display="flex" align-items="center" justify-content="center">
-        <SelectVariants selectLabel="Year" elementsList={YEARS} />
-        <SelectVariants selectLabel="Month" elementsList={MONTHS} />
+        <SelectVariants
+          selectLabel="Year"
+          elementsList={YEARS}
+          defaultValue={year}
+          yearAndMonth={yearAndMonth}
+        />
+        <SelectVariants
+          selectLabel="Month"
+          elementsList={MONTHS}
+          defaultValue={MONTHS[parseInt(month) - 1]}
+          yearAndMonth={yearAndMonth}
+        />
       </Box>
       <Box align-items="right" justify-content="right">
         <span style={{ fontFamily: "Roboto" }}>
