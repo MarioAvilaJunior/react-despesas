@@ -3,9 +3,9 @@ import { getAllExpenses, IExpense } from "../api/api";
 import { getCurrentData } from "../functions/dateFunctions";
 import Box from "@mui/material/Box";
 import { ExpensesTable, SelectVariants } from "../components";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
-const YEARS = ["2020", "2021", "2022", "2023"];
+const YEARS = ["2020", "2021"];
 
 const MONTHS = [
   "Janeiro",
@@ -24,8 +24,9 @@ const MONTHS = [
 
 const ExpensesScreen = () => {
   const [expenses, setExpenses] = useState<IExpense[]>([]);
-  //const [date, setDate] = useState<string>("2021-01");
-  const { yearAndMonth } = useParams<string>() as { yearAndMonth: string };
+  const params = useParams<{ yearAndMonth: string }>();
+  const { yearAndMonth } = params as { yearAndMonth: string };
+  const navigate = useNavigate();
 
   const [year, month] = yearAndMonth.split("-");
   const yearIndex = YEARS.findIndex((element) => {
@@ -44,23 +45,29 @@ const ExpensesScreen = () => {
     }, 0)
     .toFixed(2);
 
+  const navigateToURL = (URL: string) => {
+    console.log(URL);
+    navigate(URL);
+  };
+
   return (
     <Box>
-      <Box display="flex" align-items="center" justify-content="center">
+      <Box display="flex">
         <SelectVariants
           selectLabel="Year"
           elementsList={YEARS}
           defaultValue={yearIndex}
           yearAndMonth={yearAndMonth}
+          navigateToURL={navigateToURL}
         />
         <SelectVariants
           selectLabel="Month"
           elementsList={MONTHS}
           defaultValue={(parseInt(month) - 1).toString()}
           yearAndMonth={yearAndMonth}
+          navigateToURL={navigateToURL}
         />
-      </Box>
-      <Box align-items="right" justify-content="right">
+        <Box flex="1" />
         <span style={{ fontFamily: "Roboto" }}>
           Despesa total: <strong>R$ ${totalCost}</strong>
         </span>

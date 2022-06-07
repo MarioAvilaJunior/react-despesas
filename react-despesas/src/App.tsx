@@ -1,5 +1,5 @@
 import { getCurrentData } from "./functions/dateFunctions";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import ExpensesScreen from "./pages/ExpensesScreen";
 
 const App = () => {
@@ -7,10 +7,8 @@ const App = () => {
 
   return (
     <Routes>
-      <Route
-        path={`despesas/:yearAndMonth`}
-        element={<ExpensesScreen />}
-      ></Route>
+      <Route path={`despesas/:yearAndMonth`} element={<ExpensesScreen />} />
+      <Route path="/" element={<Navigate to="despesas/2020-06" replace />} />
     </Routes>
   );
 };
